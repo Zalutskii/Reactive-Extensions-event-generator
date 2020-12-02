@@ -119,7 +119,7 @@ namespace RxSourceGenerator
                         break;
                 }
 
-                CompletionItem item = CompletionItem.Create($"Rx{ev.Name}", tags: ImmutableArray.Create(taggedTexts.ToArray()));
+                CompletionItem item = CompletionItem.Create($"Rx{ev.Name}()", tags: ImmutableArray.Create(taggedTexts.ToArray()));
                 context.AddItem(item);
             }
         }
@@ -167,12 +167,9 @@ namespace RxSourceGenerator
                 document.Project.Solution.Workspace.TryApplyChanges(newDocument.Project.Solution);
             }
 
-
-
-            string newText = $".{item.DisplayText}()";
+            string newText = $".{item.DisplayText}";
             TextSpan newSpan = new TextSpan(item.Span.Start - 1, 1);
 
-            // Return the completion change with the new text change.
             TextChange textChange = new TextChange(newSpan, newText);
             return await Task.FromResult(CompletionChange.Create(textChange));
         }

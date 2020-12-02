@@ -9,13 +9,8 @@ namespace RxSourceGenerator
         {
             while (true)
             {
-                foreach (var c in typeSymbol.GetMembers().OfType<T>())
-                {
-                    yield return c;
-                }
-
+                foreach (var c in typeSymbol.GetMembers().OfType<T>()) yield return c;
                 if (typeSymbol.BaseType == null) yield break;
-
                 typeSymbol = typeSymbol.BaseType;
             }
         }

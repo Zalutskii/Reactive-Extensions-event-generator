@@ -21,7 +21,7 @@ namespace RxSourceGenerator
         public void Initialize(GeneratorInitializationContext context)
         {
 #if (DEBUG)
-            Debugger.Launch();
+        //    Debugger.Launch();
 #endif
             context.RegisterForSyntaxNotifications(() => new SyntaxReceiver());
         }
@@ -29,13 +29,13 @@ namespace RxSourceGenerator
         public void Execute(GeneratorExecutionContext context)
         {
             if (!(context.SyntaxReceiver is SyntaxReceiver receiver)) return;
-            
+
             if (!(receiver.GenerateCandidates.Any()))
             {
                 context.AddSource("RxGenerator.cs", startText);
                 return;
             }
-            
+
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("using System;");
             sb.AppendLine("using System.Reactive.Linq;");
@@ -71,11 +71,11 @@ namespace RxSourceGenerator
                 sb.AppendLine(@"        {");
                 if (isStub)
                 {
-                    sb.AppendLine(  "            throw new Exception('RxGenerator stub');");
+                    sb.AppendLine("            throw new Exception('RxGenerator stub');");
                 }
                 else
                 {
-                    sb.AppendLine(  "            if (obj == null) throw new ArgumentNullException(nameof(obj));");
+                    sb.AppendLine("            if (obj == null) throw new ArgumentNullException(nameof(obj));");
                     sb.AppendLine(@$"            return Observable.FromEvent<{eventType}, {tupleTypeStr}>(");
                     sb.AppendLine(@$"            {conversionStr}");
                     sb.AppendLine(@$"            h => obj.{eventName} += h,");
@@ -94,7 +94,7 @@ namespace RxSourceGenerator
             IEnumerable<(string ClassType, string EventName, string EventType, List<string> ArgumentTypes, bool IsStub)>
             GetExtensionMethodInfo(GeneratorExecutionContext context, SyntaxReceiver receiver)
         {
-            HashSet<(string ClassType, string EventName )>
+            HashSet<(string ClassType, string EventName)>
                 hashSet = new HashSet<(string ClassType, string EventName)>();
             foreach (MemberAccessExpressionSyntax syntax in receiver.GenerateCandidates)
             {

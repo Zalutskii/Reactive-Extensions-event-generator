@@ -17,9 +17,9 @@
     <PackageProjectUrl>https://github.com/Zalutskii/Reactive-Extations-Rx-event-generator</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Zalutskii/Reactive-Extations-Rx-event-generator</RepositoryUrl>
     <PackageTags>Reactive Extensions, Rx, Generator, Source generator</PackageTags>
-    <AssemblyVersion>1.0.5</AssemblyVersion>
-    <FileVersion>1.0.5</FileVersion>
-    <Version>1.0.5</Version>
+    <AssemblyVersion>1.1.1</AssemblyVersion>
+    <FileVersion>1.1.1</FileVersion>
+    <Version>1.1.1</Version>
   </PropertyGroup>
 
 
