@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30323.103
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxSourceGenerator", "SourceGenerator\RxSourceGenerator.csproj", "{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{3244D152-7317-4CE7-90B4-F17993C333B8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3244D152-7317-4CE7-90B4-F17993C333B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3244D152-7317-4CE7-90B4-F17993C333B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3244D152-7317-4CE7-90B4-F17993C333B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3244D152-7317-4CE7-90B4-F17993C333B8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
+	EndGlobalSection
+EndGlobal
