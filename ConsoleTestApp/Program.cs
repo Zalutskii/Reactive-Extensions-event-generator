@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using static RxMethodGenerator.RxGeneratedMethods;
-namespace ConsoleApp
+namespace TestConsoleApp
 {
     
     public class Program
