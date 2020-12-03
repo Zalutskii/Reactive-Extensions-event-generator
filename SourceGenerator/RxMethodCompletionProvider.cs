@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.Completion;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Options;
+using Microsoft.CodeAnalysis.Tags;
 using Microsoft.CodeAnalysis.Text;
 
 namespace RxSourceGenerator
@@ -17,38 +18,25 @@ namespace RxSourceGenerator
     [ExportCompletionProvider(name: nameof(RxMethodCompletionProvider), language: LanguageNames.CSharp), Shared]
     internal class RxMethodCompletionProvider : CompletionProvider
     {
-        public RxMethodCompletionProvider()
-        {
-            Debugger.Launch();
-        }
         public override bool ShouldTriggerCompletion(SourceText text, int caretPosition, CompletionTrigger trigger, OptionSet options)
         {
             switch (trigger.Kind)
             {
                 case CompletionTriggerKind.Insertion:
-                    return ShouldTriggerCompletion(text, caretPosition);
+                    int insertedCharacterPosition = caretPosition - 1;
+                    if (insertedCharacterPosition <= 0) return false;
+                    char ch = text[insertedCharacterPosition];
+                    char previousCh = text[insertedCharacterPosition - 1];
+                    return ch == '.' && !char.IsWhiteSpace(previousCh) && previousCh != '\t' && previousCh != '\r' && previousCh != '\n';
 
                 default:
                     return false;
             }
         }
 
-        private static bool ShouldTriggerCompletion(SourceText text, int position)
-        {
-            int insertedCharacterPosition = position - 1;
-            if (insertedCharacterPosition <= 0)
-            {
-                return false;
-            }
-
-            char ch = text[insertedCharacterPosition];
-            char previousCh = text[insertedCharacterPosition - 1];
-            return ch == '.' && !char.IsWhiteSpace(previousCh) && previousCh != '\t' && previousCh != '\r' && previousCh != '\n';
-        }
-
         public override async Task ProvideCompletionsAsync(CompletionContext context)
         {
-            var syntaxNode = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode? syntaxNode = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
             if (!(syntaxNode?.FindNode(context.CompletionListSpan) is ExpressionStatementSyntax
                 expressionStatementSyntax)) return;
             if (!(expressionStatementSyntax.Expression is MemberAccessExpressionSyntax syntax)) return;
@@ -71,10 +59,10 @@ namespace RxSourceGenerator
                 if (!(ev.Type is INamedTypeSymbol namedTypeSymbol)) continue;
                 if (namedTypeSymbol.DelegateInvokeMethod == null) continue;
 
-                var typeArguments = namedTypeSymbol.DelegateInvokeMethod.Parameters.Select(m => m.Type).ToList();
+                List<ITypeSymbol>? typeArguments = namedTypeSymbol.DelegateInvokeMethod.Parameters.Select(m => m.Type).ToList();
                 string fullType = namedTypeSymbol.ToDisplayString();
 
-                var taggedTexts = new List<string>();
+                List<string>? taggedTexts = new List<string>() { WellKnownTags.ExtensionMethod };
 
                 switch (typeArguments.Count)
                 {
@@ -94,7 +82,7 @@ namespace RxSourceGenerator
                         taggedTexts.Add(TextTags.Text);
                         taggedTexts.Add("(");
 
-                        foreach ((var type, int i) in typeArguments.Select((type, i) => (type, i)))
+                        foreach ((ITypeSymbol? type, int i) in typeArguments.Select((type, i) => (type, i)))
                         {
                             taggedTexts.Add(typeArguments.First().IsValueType ?
                                 TextTags.Struct :
@@ -119,7 +107,7 @@ namespace RxSourceGenerator
                         break;
                 }
 
-                CompletionItem item = CompletionItem.Create($"Rx{ev.Name}()", tags: ImmutableArray.Create(taggedTexts.ToArray()));
+                CompletionItem item = CompletionItem.Create($"Rx{ev.Name}",  tags: ImmutableArray.Create(taggedTexts.ToArray()));
                 context.AddItem(item);
             }
         }
@@ -128,12 +116,11 @@ namespace RxSourceGenerator
         {
             List<TaggedText> taggedTexts = new List<TaggedText>();
 
-            for (var i = 0; i < item.Tags.Length; i = 2 + i)
+            for (int i = 1; i < item.Tags.Length; i = 2 + i)
             {
                 taggedTexts.Add(new TaggedText(item.Tags[i], item.Tags[i + 1]));
             }
             return Task.FromResult(CompletionDescription.Create(ImmutableArray.Create(taggedTexts.ToArray())));
-
         }
 
         public override async Task<CompletionChange> GetChangeAsync(Document document, CompletionItem item,
@@ -163,11 +150,11 @@ namespace RxSourceGenerator
                         });
                 }
 
-                var newDocument = document.WithSyntaxRoot(rootNode);
+                Document? newDocument = document.WithSyntaxRoot(rootNode);
                 document.Project.Solution.Workspace.TryApplyChanges(newDocument.Project.Solution);
             }
 
-            string newText = $".{item.DisplayText}";
+            string newText = $".{item.DisplayText}()";
             TextSpan newSpan = new TextSpan(item.Span.Start - 1, 1);
 
             TextChange textChange = new TextChange(newSpan, newText);

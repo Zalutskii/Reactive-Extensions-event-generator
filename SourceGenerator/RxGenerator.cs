@@ -42,7 +42,7 @@ namespace RxSourceGenerator
             sb.AppendLine("namespace RxMethodGenerator{");
             sb.AppendLine("    public static class RxGeneratedMethods{");
 
-            foreach (var (classType, eventName, eventType, argumentTypes, isStub) in GetExtensionMethodInfo(context,
+            foreach ((string classType, string eventName, string eventType, List<string> argumentTypes, bool isStub) in GetExtensionMethodInfo(context,
                 receiver))
             {
                 string tupleTypeStr;
@@ -86,12 +86,10 @@ namespace RxSourceGenerator
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            string ccc = sb.ToString();
-            context.AddSource("RxGenerator.cs", ccc);
+            context.AddSource("RxGenerator.cs", sb.ToString());
         }
 
-        private static
-            IEnumerable<(string ClassType, string EventName, string EventType, List<string> ArgumentTypes, bool IsStub)>
+        private static IEnumerable<(string ClassType, string EventName, string EventType, List<string> ArgumentTypes, bool IsStub)>
             GetExtensionMethodInfo(GeneratorExecutionContext context, SyntaxReceiver receiver)
         {
             HashSet<(string ClassType, string EventName)>

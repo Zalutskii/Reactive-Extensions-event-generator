@@ -1,32 +1,22 @@
 ﻿using System;
 using System.Reactive.Linq;
-using static RxMethodGenerator.RxGeneratedMethods;
+using RxMethodGenerator;
 namespace TestConsoleApp
 {
     
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            var example = new  Example();
+            Example example = new Example();
             example.RxActionEvent().Subscribe();
+            example.
         }
-    }
+    }  
 
     public partial class Example
     {
         public event Action<int, string, bool> ActionEvent;
         public event Action<int, string, bool> ActionEvent1;
-
-        public Example()
-        {
-
-           
-        }
-
-        public void Example1()
-        {
-
-        }
     }
 }

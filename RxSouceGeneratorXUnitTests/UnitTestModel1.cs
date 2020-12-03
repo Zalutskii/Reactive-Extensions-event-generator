@@ -23,7 +23,7 @@ namespace RxSouceGeneratorXUnitTests
             int RxEventHandlerEvent1 = 0;
             int RxEventHandlerEvent2 = 0;
 
-            var locaModel = new TestModel1();
+            TestModel1 locaModel = new TestModel1();
 
             locaModel.RxAccountHandlerEvent().Select(t => 10).Subscribe(t => RxAccountHandlerEvent = t);
             locaModel.RxActionEvent1().Select(t => 10).Subscribe(t => RxActionEvent1 = t);
@@ -109,11 +109,11 @@ namespace RxSouceGeneratorXUnitTests
             int RxEventHandlerEvent1 = 0;
             int RxEventHandlerEvent2 = 0;
 
-            TestModelMethod(out var RxAccountHandlerEventModel).RxAccountHandlerEvent().Select(t => 10).Subscribe(t => RxAccountHandlerEvent = t);
-            TestModelMethod(out var RxActionEvent1Model).RxActionEvent1().Select(t => 10).Subscribe(t => RxActionEvent1 = t);
-            TestModelMethod(out var RxActionEvent2Model).RxActionEvent2().Select(t => 10).Subscribe(t => RxActionEvent2 = t);
-            TestModelMethod(out var RxEventHandlerEvent1Model).RxEventHandlerEvent1().Select(t => 10).Subscribe(t => RxEventHandlerEvent1 = t);
-            TestModelMethod(out var RxEventHandlerEvent2Model).RxEventHandlerEvent2().Select(t => 10).Subscribe(t => RxEventHandlerEvent2 = t);
+            TestModelMethod(out TestModel1 RxAccountHandlerEventModel).RxAccountHandlerEvent().Select(t => 10).Subscribe(t => RxAccountHandlerEvent = t);
+            TestModelMethod(out TestModel1 RxActionEvent1Model).RxActionEvent1().Select(t => 10).Subscribe(t => RxActionEvent1 = t);
+            TestModelMethod(out TestModel1 RxActionEvent2Model).RxActionEvent2().Select(t => 10).Subscribe(t => RxActionEvent2 = t);
+            TestModelMethod(out TestModel1 RxEventHandlerEvent1Model).RxEventHandlerEvent1().Select(t => 10).Subscribe(t => RxEventHandlerEvent1 = t);
+            TestModelMethod(out TestModel1 RxEventHandlerEvent2Model).RxEventHandlerEvent2().Select(t => 10).Subscribe(t => RxEventHandlerEvent2 = t);
 
             RxAccountHandlerEventModel.FireAccountHandlerEvent();
             RxActionEvent1Model.FireActionEvent1();
