@@ -1,9 +1,6 @@
 # RxSourceGenerator
 [![License](https://img.shields.io/badge/License-MIT-gree.svg)](https://github.com/Zalutskii/Reactive-Extations-Rx-event-generator/blob/master/LICENSE)
 [![NuGet](https://img.shields.io/badge/NuGet-blue.svg)](https://www.nuget.org/packages/RxSourceGenerator)
-### :warning: RxSourceGenerator is supported on Visual Studio #16.9.0 Preview. This functionality is not yet available on stable versions of Visual Studio or JB Rider :warning:
-
-### :warning: Even for Visual Studio Preview, RxSourceGenerator does not work with all project types. This works for class library and console application, but does not work for WPF :warning:
 
 # What is this?
 	
